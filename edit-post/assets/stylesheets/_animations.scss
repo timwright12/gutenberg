@@ -39,9 +39,11 @@
 @keyframes editor_region_focus {
 	from {
 		outline-width: 0px;
+		outline-offset: 0px;
 	}
 	to {
 		outline-width: 4px;
+		outline-offset: -4px;
 	}
 }
 
@@ -50,7 +52,6 @@
 	animation-fill-mode: forwards;
 	outline-style: solid;
 	outline-color: $blue-medium-400;
-	outline-offset: -4px;
 }
 
 @keyframes rotation {
