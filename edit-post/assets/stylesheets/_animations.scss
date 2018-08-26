@@ -38,8 +38,8 @@
 
 @keyframes editor_region_focus {
 	from {
-		outline-width: 0px;
-		outline-offset: 0px;
+		outline-width: 0;
+		outline-offset: 0;
 	}
 	to {
 		outline-width: 4px;
