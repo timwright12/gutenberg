@@ -998,12 +998,14 @@ const RichTextContainer = compose( [
 	} ),
 	withSelect( ( select, props ) => {
 		const { isViewportMatch = identity } = select( 'core/viewport' ) || {};
-		const { canUserUseUnfilteredHTML } = select( 'core/editor' );
+		const { canUserUseUnfilteredHTML, getAnnotationsForRichText } = select( 'core/editor' );
+
+		const annotations = getAnnotationsForRichText( props.clientId );
 
 		return {
 			isViewportSmall: isViewportMatch( '< small' ),
 			canUserUseUnfilteredHTML: canUserUseUnfilteredHTML(),
-			annotations: select( 'core/editor' ).getAnnotationsForBlock( props.clientId ),
+			annotations,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

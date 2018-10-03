@@ -373,6 +373,7 @@ export class BlockListBlock extends Component {
 			isParentOfSelectedBlock,
 			hasMultiSelection,
 			isDraggable,
+			annotations,
 		} = this.props;
 		const isHovered = this.state.isHovered && ! isMultiSelecting;
 		const { name: blockName, isValid } = block;
@@ -402,19 +403,26 @@ export class BlockListBlock extends Component {
 		const shouldShowInsertionPoint = ( isPartOfMultiSelection && isFirst ) || ! isPartOfMultiSelection;
 		const canShowInBetweenInserter = ! isEmptyDefaultBlock && ! isPreviousBlockADefaultEmptyBlock;
 
-		// Generate the wrapper class names handling the different states of the block.
-		const wrapperClassName = classnames( 'editor-block-list__block', {
+		const classNamesObject = {
 			'has-warning': ! isValid || !! error,
 			'is-selected': shouldAppearSelected,
 			'is-multi-selected': isPartOfMultiSelection,
 			'is-selected-parent': shouldAppearSelectedParent,
 			'is-hovered': shouldAppearHovered,
+			'is-annotated': annotations.length !== 0,
 			'is-reusable': isReusableBlock( blockType ),
 			'is-dragging': dragging,
 			'is-typing': isTypingWithinBlock,
 			'is-focused': isFocusMode && ( isSelected || isParentOfSelectedBlock ),
 			'is-focus-mode': isFocusMode,
+		};
+
+		annotations.forEach( ( annotation ) => {
+			classNamesObject[ 'is-annotated-by-' + annotation.source ] = true;
 		} );
+
+		// Generate the wrapper class names handling the different states of the block.
+		const wrapperClassName = classnames( 'editor-block-list__block', classNamesObject );
 
 		const { onReplace } = this.props;
 
@@ -590,6 +598,7 @@ const applyWithSelect = withSelect( ( select, { clientId, rootClientId, isLargeV
 		hasSelectedInnerBlock,
 		getTemplateLock,
 		hasMultiSelection,
+		getAnnotationsForBlock,
 	} = select( 'core/editor' );
 	const isSelected = isBlockSelected( clientId );
 	const { hasFixedToolbar, focusMode } = getEditorSettings();
@@ -624,6 +633,7 @@ const applyWithSelect = withSelect( ( select, { clientId, rootClientId, isLargeV
 		isSelected,
 		isParentOfSelectedBlock,
 		hasMultiSelection: hasMultiSelection(),
+		annotations: getAnnotationsForBlock( clientId ),
 	};
 } );
 

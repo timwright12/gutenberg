@@ -795,11 +795,6 @@ export function disablePublishSidebar() {
 	};
 }
 
-// console shortcut: wp.data.dispatch( "core/editor" ).addAnnotation( { block: wp.data.select( "core/editor" ).getBlockOrder()[0], startXPath: "text()[1]", startOffset: 50, endXPath: "text()[1]", endOffset: 100 } );
-
-// Known limitations:
-// * Annotations cannot overlap.
-
 /**
  * Adds an annotation to a piece of text in a block.
  *
@@ -814,12 +809,13 @@ export function disablePublishSidebar() {
  *
  * @return {Object} Action object.
  */
-export function addAnnotation( { block, startXPath, startOffset, endXPath, endOffset, source = 'default', id = uuid() } ) {
+export function addAnnotation( { block, startXPath, startOffset, endXPath, endOffset, isBlockAnnotation = false, source = 'default', id = uuid() } ) {
 	return {
 		type: 'ANNOTATION_ADD',
 		id,
 		block,
 		source,
+		isBlockAnnotation,
 		startXPath,
 		startOffset,
 		endXPath,

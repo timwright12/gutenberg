@@ -1958,10 +1958,25 @@ export function isPublishSidebarEnabled( state ) {
 export const getAnnotationsForBlock = createSelector(
 	( state, clientId ) => {
 		return state.annotations.filter( ( annotation ) => {
-			return annotation.block === clientId;
+			return !! annotation.isBlockAnnotation && annotation.block === clientId;
 		} );
 	},
 	( state ) => [
 		state.annotations,
 	]
 );
+
+export const getAnnotationsForRichText = createSelector(
+	( state, clientId ) => {
+		return state.annotations.filter( ( annotation ) => {
+			return ! annotation.isBlockAnnotation && annotation.block === clientId;
+		} );
+	},
+	( state ) => [
+		state.annotations,
+	]
+);
+
+export function getAnnotations( state ) {
+	return state.annotations;
+}

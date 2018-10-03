@@ -1105,6 +1105,7 @@ export function annotations( state = [], action ) {
 					id: action.id,
 					block: action.block,
 					source: action.source,
+					isBlockAnnotation: action.isBlockAnnotation,
 					startXPath: action.startXPath,
 					startOffset: action.startOffset,
 					endXPath: action.endXPath,
