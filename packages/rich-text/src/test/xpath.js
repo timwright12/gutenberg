@@ -23,15 +23,13 @@ describe( 'matchXPath', () => {
 
 	it( 'should match the first text node', () => {
 		const record = {
-			formats: [
-				[ { type: 'strong' } ], , , ,
-			],
-			text: 'Text',
+			formats: [ , [ { type: 'strong' } ], , , , ],
+			text: ' Text',
 		};
 
-		// There will be an empty text node before the strong:
+		// There will be a text node with an empty string before the strong.
 		expect( matchXPath( record, 'text()[1]' ) ).toEqual( 0 );
-		expect( matchXPath( record, 'text()[2]' ) ).toEqual( 1 );
+		expect( matchXPath( record, 'text()[2]' ) ).toEqual( 2 );
 	} );
 
 	it( 'should match deeper trees', () => {

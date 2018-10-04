@@ -1,18 +1,54 @@
-function append( parent, object ) {
-	object.parent = parent;
-	parent.children = parent.children || [];
-	parent.children.push( object );
-	return object;
+/**
+ * Internal dependencies
+ */
+import { toTree } from './to-tree';
+
+const matchNodePath = /([a-z0-9()]+)\[(\d)+]/;
+
+function createEmpty( type ) {
+	return { type };
 }
 
 function getLastChild( { children } ) {
 	return children && children[ children.length - 1 ];
 }
 
-const matchNodePath = /([a-z0-9()]+)\[(\d)+]/;
+function append( parent, object, pos = -1 ) {
+	if ( typeof object === 'string' ) {
+		object = { text: object };
+	}
 
-function isTextNode( child ) {
-	return child.hasOwnProperty( 'text' );
+	object.pos = pos;
+	object.parent = parent;
+	parent.children = parent.children || [];
+	parent.children.push( object );
+	return object;
+}
+
+function appendText( object, text ) {
+	object.text += text;
+}
+
+function getParent( { parent } ) {
+	return parent;
+}
+
+function isText( { text } ) {
+	return typeof text === 'string';
+}
+
+function getText( { text } ) {
+	return text;
+}
+
+function remove( object ) {
+	const index = object.parent.children.indexOf( object );
+
+	if ( index !== -1 ) {
+		object.parent.children.splice( index, 1 );
+	}
+
+	return object;
 }
 
 function isNodeType( type, child ) {
@@ -25,7 +61,7 @@ function findNodeWithIndex( type, index, children ) {
 
 	children.forEach( ( child ) => {
 		if (
-			( type === 'text()' && isTextNode( child ) ) ||
+			( type === 'text()' && isText( child ) ) ||
 			isNodeType( type, child )
 		) {
 			if ( count === index ) {
@@ -54,51 +90,25 @@ function findNodeWithIndex( type, index, children ) {
  * @return {number} The position of the matched 'element'.
  */
 export function matchXPath( record, xpath ) {
-	const { formats, text } = record;
-
-	const formatsLength = formats.length + 1;
-	const tree = {};
-
-	append( tree, { text: '', pos: 0 } );
-
-	for ( let i = 0; i < formatsLength; i++ ) {
-		const character = text.charAt( i );
-		const characterFormats = formats[ i ];
-
-		let pointer = getLastChild( tree );
-
-		if ( characterFormats ) {
-			characterFormats.forEach( ( { type, attributes, object } ) => {
-				if ( pointer && type === pointer.type ) {
-					pointer = getLastChild( pointer );
-					return;
-				}
-
-				const newNode = { type, attributes, object, pos: i };
-				append( pointer.parent, newNode );
-				pointer = append( object ? pointer.parent : newNode, { text: '', pos: i } );
-			} );
-		}
-
-		if ( character ) {
-			if ( character === '\n' ) {
-				pointer = append( pointer.parent, { type: 'br', object: true, pos: i } );
-			} else if ( pointer.text === undefined ) {
-				pointer = append( pointer.parent, { text: character, pos: i } );
-			} else {
-				pointer.text += character;
-			}
-		}
-	}
+	const tree = toTree( record, false, {
+		createEmpty,
+		append,
+		getLastChild,
+		getParent,
+		isText,
+		getText,
+		remove,
+		appendText,
+	} );
 
 	const pathParts = xpath.split( '/' );
 	let pointer = tree;
 
 	pathParts.forEach( ( pathPart ) => {
 		const matches = matchNodePath.exec( pathPart );
-
-		// XPaths start counting at 1.
 		const nodeType = matches[ 1 ];
+
+		// XPaths start counting at 1, so decrement by 1.
 		const nodeIndex = parseInt( matches[ 2 ], 10 ) - 1;
 
 		const { children } = pointer;
@@ -107,5 +117,5 @@ export function matchXPath( record, xpath ) {
 	} );
 
 	// The leaf node must be a text node.
-	return isTextNode( pointer ) ? pointer.pos : false;
+	return isText( pointer ) ? pointer.pos : false;
 }
