@@ -10,7 +10,7 @@ console.log.mockRestore();
 describe( 'matchXPath', () => {
 	it( 'should match a plain structure', () => {
 		const plainRecord = {
-			formats: [ , , , , ],
+			formats: [ , , , ],
 			text: 'Text',
 		};
 		const xpath = 'text()[1]';
@@ -56,5 +56,16 @@ describe( 'matchXPath', () => {
 		expect( matchXPath( record, 'strong[1]/em[1]/text()[2]' ) ).toEqual( 4 );
 		expect( matchXPath( record, 'strong[1]/text()[2]' ) ).toEqual( 5 );
 		expect( matchXPath( record, 'text()[2]' ) ).toEqual( 6 );
+	} );
+
+	it( 'should gracefully fail if no position can be found', () => {
+		const record = {
+			formats: [ , , , ],
+			text: 'Text',
+		};
+
+		expect( matchXPath( record, 'text()[2]' ) ).toEqual( false );
+		expect( matchXPath( record, 'mark[1]/text()[1]' ) ).toEqual( false );
+		expect( matchXPath( record, 'mark[1]/strong[1]/text()[1]' ) ).toEqual( false );
 	} );
 } );

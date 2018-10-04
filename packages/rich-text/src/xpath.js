@@ -55,7 +55,7 @@ function isNodeType( type, child ) {
 	return child.hasOwnProperty( 'type' ) && type === child.type;
 }
 
-function findNodeWithIndex( type, index, children ) {
+function findNodeWithIndex( type, index, children = [] ) {
 	let count = 0;
 	let foundNode = false;
 
