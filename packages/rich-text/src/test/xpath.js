@@ -10,12 +10,7 @@ console.log.mockRestore();
 describe( 'matchXPath', () => {
 	it( 'should match a plain structure', () => {
 		const plainRecord = {
-			formats: [
-				[],
-				[],
-				[],
-				[],
-			],
+			formats: [ , , , , ],
 			text: 'Text',
 		};
 		const xpath = 'text()[1]';
@@ -29,10 +24,7 @@ describe( 'matchXPath', () => {
 	it( 'should match the first text node', () => {
 		const record = {
 			formats: [
-				[ { type: 'strong' } ],
-				[],
-				[],
-				[],
+				[ { type: 'strong' } ], , , ,
 			],
 			text: 'Text',
 		};
@@ -43,14 +35,17 @@ describe( 'matchXPath', () => {
 	} );
 
 	it( 'should match deeper trees', () => {
+		const strong = { type: 'strong' };
+		const em = { type: 'em' };
+		const s = { type: 's' };
 		const record = {
 			formats: [
 				[],
-				[ { type: 'strong' } ],
-				[ { type: 'strong' }, { type: 'em' } ],
-				[ { type: 'strong' }, { type: 'em' }, { type: 's' } ],
-				[ { type: 'strong' }, { type: 'em' } ],
-				[ { type: 'strong' } ],
+				[ strong ],
+				[ strong, em ],
+				[ strong, em, s ],
+				[ strong, em ],
+				[ strong ],
 				[],
 			],
 			text: 'Textual',
