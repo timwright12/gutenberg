@@ -20,18 +20,20 @@ Yields action objects used in signalling that a notice is to be created.
 
 *Parameters*
 
- * status: Notice status. Defaults to `info`.
+ * status: Notice status.
+                                                      Defaults to `info`.
  * content: Notice message.
- * options: Optional notice options.
- * options.context: Context under which notice is to be
-                                        grouped.
- * options.id: Unique identifier of notice. If not
-                                        specified, one will be automatically
-                                        generated.
- * options.isDismissible: Whether the notice can be dismissed
-                                        by the user. Defaults to `true`.
- * options.spokenMessage: A customized message spoken to
-                                        screen-reader devices.
+ * options: Notice options.
+ * options.context: Context under which to
+                                                      group notice.
+ * options.id: Identifier for notice.
+                                                      Automatically assigned
+                                                      if not specified.
+ * options.isDismissible: Whether the notice can
+                                                      be dismissed by user.
+                                                      Defaults to `true`.
+ * options.actions: User actions to be
+                                                      presented with notice.
 
 ### createSuccessNotice
 
