@@ -1,3 +1,297 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test transforms all transforms work 1`] = `"{\\"core__4-invalid-starting-letter\\":{},\\"core__archives\\":{},\\"core__archives__showPostCounts\\":{},\\"core__audio\\":{\\"availableTransforms\\":[\\"File\\"]},\\"core__block\\":{},\\"core__button__center\\":{\\"availableTransforms\\":[]},\\"core__categories\\":{},\\"core__code\\":{\\"availableTransforms\\":[\\"Preformatted\\"]},\\"core__column\\":{\\"availableTransforms\\":[\\"Heading\\",\\"List\\",\\"Quote\\",\\"Preformatted\\",\\"Verse\\"]},\\"core__columns\\":{\\"availableTransforms\\":[\\"Heading\\",\\"List\\",\\"Quote\\",\\"Preformatted\\",\\"Verse\\"]},\\"core__cover-image\\":{\\"availableTransforms\\":[\\"Heading\\",\\"Image\\"]},\\"core__embed\\":{},\\"core__file__new-window\\":{},\\"core__file__no-download-button\\":{},\\"core__file__no-text-link\\":{},\\"core__freeform\\":{},\\"core__freeform__undelimited\\":{},\\"core__gallery\\":{\\"availableTransforms\\":[\\"Image\\"]},\\"core__gallery__columns\\":{\\"availableTransforms\\":[\\"Image\\"]},\\"core__heading__h2-em\\":{\\"availableTransforms\\":[\\"Quote\\",\\"Cover Image\\",\\"Paragraph\\"]},\\"core__heading__h2\\":{\\"availableTransforms\\":[\\"Quote\\",\\"Cover Image\\",\\"Paragraph\\"]},\\"core__html\\":{},\\"core__image\\":{\\"availableTransforms\\":[\\"Gallery\\",\\"Cover Image\\",\\"File\\"]},\\"core__image__attachment-link\\":{\\"availableTransforms\\":[\\"Gallery\\",\\"Cover Image\\",\\"File\\"]},\\"core__image__center-caption\\":{\\"availableTransforms\\":[\\"Gallery\\",\\"Cover Image\\",\\"File\\"]},\\"core__image__custom-link\\":{\\"availableTransforms\\":[\\"Gallery\\",\\"Cover Image\\",\\"File\\"]},\\"core__image__media-link\\":{\\"availableTransforms\\":[\\"Gallery\\",\\"Cover Image\\",\\"File\\"]},\\"core__invalid-Capitals\\":{},\\"core__invalid-special\\":{},\\"core__latest-comments\\":{},\\"core__latest-posts\\":{},\\"core__latest-posts__displayPostDate\\":{},\\"core__list__ul\\":{\\"availableTransforms\\":[\\"Paragraph\\",\\"Quote\\"]},\\"core__more\\":{},\\"core__more__custom-text-teaser\\":{},\\"core__nextpage\\":{},\\"core__paragraph__align-right\\":{\\"availableTransforms\\":[\\"Heading\\",\\"List\\",\\"Quote\\",\\"Preformatted\\",\\"Verse\\"]},\\"core__paragraph__deprecated\\":{\\"expectedDeprecatedBlock\\":true},\\"core__preformatted\\":{\\"availableTransforms\\":[\\"Paragraph\\"]},\\"core__pullquote\\":{\\"availableTransforms\\":[]},\\"core__pullquote__multi-paragraph\\":{\\"availableTransforms\\":[]},\\"core__quote__style-1\\":{\\"availableTransforms\\":[\\"List\\",\\"Paragraph\\",\\"Heading\\"]},\\"core__quote__style-2\\":{\\"availableTransforms\\":[\\"List\\",\\"Paragraph\\",\\"Heading\\"]},\\"core__separator\\":{\\"availableTransforms\\":[]},\\"core__shortcode\\":{},\\"core__spacer\\":{},\\"core__subhead\\":{\\"expectedDeprecatedBlock\\":true},\\"core__table\\":{},\\"core__text-columns\\":{\\"expectedDeprecatedBlock\\":true},\\"core__text__converts-to-paragraph\\":{\\"availableTransforms\\":[\\"Heading\\",\\"List\\",\\"Quote\\",\\"Preformatted\\",\\"Verse\\"]},\\"core__verse\\":{\\"availableTransforms\\":[\\"Paragraph\\"]},\\"core__video\\":{\\"availableTransforms\\":[\\"File\\"]}}"`;
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__audio to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://media.simplecast.com/episodes/audio/80564/draft-podcast-51-livePublish2.mp3\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://media.simplecast.com/episodes/audio/80564/draft-podcast-51-livePublish2.mp3\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__code to Preformatted block 1`] = `
+"<!-- wp:preformatted -->
+<pre class=\\"wp-block-preformatted\\">export default function MyButton() {
+	return <Button>Click Me!</Button>;
+}</pre>
+<!-- /wp:preformatted -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__cover-image to Heading block 1`] = `
+"<!-- wp:heading -->
+<h2>Guten Berg!</h2>
+<!-- /wp:heading -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__cover-image to Image block 1`] = `
+"<!-- wp:image -->
+<figure class=\\"wp-block-image\\"><img src=\\"https://cldup.com/uuUqE_dXzy.jpg\\" alt=\\"\\"/><figcaption>Guten Berg!</figcaption></figure>
+<!-- /wp:image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__gallery to Image block 1`] = `
+"<!-- wp:image -->
+<figure class=\\"wp-block-image\\"><img src=\\"https://cldup.com/uuUqE_dXzy.jpg\\" alt=\\"title\\"/></figure>
+<!-- /wp:image -->
+
+<!-- wp:image -->
+<figure class=\\"wp-block-image\\"><img src=\\"https://cldup.com/cXyG__fTLN.jpg\\" alt=\\"title\\"/></figure>
+<!-- /wp:image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__gallery__columns to Image block 1`] = `
+"<!-- wp:image -->
+<figure class=\\"wp-block-image\\"><img src=\\"https://cldup.com/uuUqE_dXzy.jpg\\" alt=\\"title\\"/></figure>
+<!-- /wp:image -->
+
+<!-- wp:image -->
+<figure class=\\"wp-block-image\\"><img src=\\"https://cldup.com/cXyG__fTLN.jpg\\" alt=\\"title\\"/></figure>
+<!-- /wp:image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2 to Cover Image block 1`] = `
+"<!-- wp:cover-image -->
+<div class=\\"wp-block-cover-image has-background-dim\\"><p class=\\"wp-block-cover-image-text\\">A picture is worth a thousand words, or so the saying goes</p></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2 to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>A picture is worth a thousand words, or so the saying goes</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2 to Quote block 1`] = `
+"<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\">A picture is worth a thousand words, or so the saying goes</blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2-em to Cover Image block 1`] = `
+"<!-- wp:cover-image -->
+<div class=\\"wp-block-cover-image has-background-dim\\"><p class=\\"wp-block-cover-image-text\\">The <em>Inserter</em> Tool</p></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2-em to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>The <em>Inserter</em> Tool</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__heading__h2-em to Quote block 1`] = `
+"<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\">The <em>Inserter</em> Tool</blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image to Cover Image block 1`] = `
+"<!-- wp:cover-image {\\"url\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-cover-image has-background-dim\\" style=\\"background-image:url(https://cldup.com/uuUqE_dXzy.jpg)\\"></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://cldup.com/uuUqE_dXzy.jpg\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image to Gallery block 1`] = `
+"<!-- wp:gallery -->
+<ul class=\\"wp-block-gallery columns-0 is-cropped\\"></ul>
+<!-- /wp:gallery -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__attachment-link to Cover Image block 1`] = `
+"<!-- wp:cover-image {\\"url\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-cover-image has-background-dim\\" style=\\"background-image:url(https://cldup.com/uuUqE_dXzy.jpg)\\"></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__attachment-link to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://cldup.com/uuUqE_dXzy.jpg\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__attachment-link to Gallery block 1`] = `
+"<!-- wp:gallery -->
+<ul class=\\"wp-block-gallery columns-0 is-cropped\\"></ul>
+<!-- /wp:gallery -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__center-caption to Cover Image block 1`] = `
+"<!-- wp:cover-image {\\"url\\":\\"https://cldup.com/YLYhpou2oq.jpg\\",\\"align\\":\\"center\\"} -->
+<div class=\\"wp-block-cover-image has-background-dim aligncenter\\" style=\\"background-image:url(https://cldup.com/YLYhpou2oq.jpg)\\"><p class=\\"wp-block-cover-image-text\\">Give it a try. Press the \\"really wide\\" button on the image toolbar.</p></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__center-caption to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://cldup.com/YLYhpou2oq.jpg\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://cldup.com/YLYhpou2oq.jpg\\">Give it a try. Press the \\"really wide\\" button on the image toolbar.</a><a href=\\"https://cldup.com/YLYhpou2oq.jpg\\" class=\\"wp-block-file__button\\" download=\\"Give it a try. Press the &quot;really wide&quot; button on the image toolbar.\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__center-caption to Gallery block 1`] = `
+"<!-- wp:gallery -->
+<ul class=\\"wp-block-gallery columns-0 is-cropped\\"></ul>
+<!-- /wp:gallery -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__custom-link to Cover Image block 1`] = `
+"<!-- wp:cover-image {\\"url\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-cover-image has-background-dim\\" style=\\"background-image:url(https://cldup.com/uuUqE_dXzy.jpg)\\"></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__custom-link to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://cldup.com/uuUqE_dXzy.jpg\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__custom-link to Gallery block 1`] = `
+"<!-- wp:gallery -->
+<ul class=\\"wp-block-gallery columns-0 is-cropped\\"></ul>
+<!-- /wp:gallery -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__media-link to Cover Image block 1`] = `
+"<!-- wp:cover-image {\\"url\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-cover-image has-background-dim\\" style=\\"background-image:url(https://cldup.com/uuUqE_dXzy.jpg)\\"></div>
+<!-- /wp:cover-image -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__media-link to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://cldup.com/uuUqE_dXzy.jpg\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://cldup.com/uuUqE_dXzy.jpg\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__image__media-link to Gallery block 1`] = `
+"<!-- wp:gallery -->
+<ul class=\\"wp-block-gallery columns-0 is-cropped\\"></ul>
+<!-- /wp:gallery -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__list__ul to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>Text &amp; Headings</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Images &amp; Videos</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Galleries</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Embeds, like YouTube, Tweets, or other WordPress posts.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Layout blocks, like Buttons, Hero Images, Separators, etc.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>And <em>Lists</em> like this one of course :)</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__list__ul to Quote block 1`] = `
+"<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\"><li>Text &amp; Headings</li><li>Images &amp; Videos</li><li>Galleries</li><li>Embeds, like YouTube, Tweets, or other WordPress posts.</li><li>Layout blocks, like Buttons, Hero Images, Separators, etc.</li><li>And <em>Lists</em> like this one of course :)</li></blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__paragraph__align-right to Heading block 1`] = `
+"<!-- wp:heading -->
+<h2>... like this one, which is separate from the above and right aligned.</h2>
+<!-- /wp:heading -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__paragraph__align-right to List block 1`] = `
+"<!-- wp:list -->
+<ul><li>... like this one, which is separate from the above and right aligned.</li></ul>
+<!-- /wp:list -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__paragraph__align-right to Preformatted block 1`] = `
+"<!-- wp:preformatted -->
+<pre class=\\"wp-block-preformatted\\">... like this one, which is separate from the above and right aligned.</pre>
+<!-- /wp:preformatted -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__paragraph__align-right to Quote block 1`] = `
+"<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\"><p>... like this one, which is separate from the above and right aligned.</p></blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__paragraph__align-right to Verse block 1`] = `
+"<!-- wp:verse -->
+<pre class=\\"wp-block-verse\\">... like this one, which is separate from the above and right aligned.</pre>
+<!-- /wp:verse -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__preformatted to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>Some <em>preformatted</em> text...<br>And more!</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-1 to Heading block 1`] = `
+"<!-- wp:heading -->
+<h2>The editor will endeavour to create a new page and post building experience that makes writing rich posts effortless, and has “blocks” to make it easy what today might take shortcodes, custom HTML, or “mystery meat” embed discovery.</h2>
+<!-- /wp:heading -->
+
+<!-- wp:quote -->
+<blockquote class=\\"wp-block-quote\\"><p></p><cite>Matt Mullenweg, 2017</cite></blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-1 to List block 1`] = `
+"<!-- wp:list -->
+<ul><p>The editor will endeavour to create a new page and post building experience that makes writing rich posts effortless, and has “blocks” to make it easy what today might take shortcodes, custom HTML, or “mystery meat” embed discovery.</p></ul>
+<!-- /wp:list -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-1 to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>The editor will endeavour to create a new page and post building experience that makes writing rich posts effortless, and has “blocks” to make it easy what today might take shortcodes, custom HTML, or “mystery meat” embed discovery.</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-2 to Heading block 1`] = `
+"<!-- wp:heading -->
+<h2>There is no greater agony than bearing an untold story inside you.</h2>
+<!-- /wp:heading -->
+
+<!-- wp:quote {\\"className\\":\\"is-style-large\\"} -->
+<blockquote class=\\"wp-block-quote is-style-large\\"><p></p><cite>Maya Angelou</cite></blockquote>
+<!-- /wp:quote -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-2 to List block 1`] = `
+"<!-- wp:list -->
+<ul><p>There is no greater agony than bearing an untold story inside you.</p></ul>
+<!-- /wp:list -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__quote__style-2 to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>There is no greater agony than bearing an untold story inside you.</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__verse to Paragraph block 1`] = `
+"<!-- wp:paragraph -->
+<p>A <em>verse</em>…<br>And more!</p>
+<!-- /wp:paragraph -->"
+`;
+
+exports[`test transforms individual transforms work as expected Should correctly transform block in fixture core__video to File block 1`] = `
+"<!-- wp:file {\\"href\\":\\"https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4\\"} -->
+<div class=\\"wp-block-file\\"><a href=\\"https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4\\" class=\\"wp-block-file__button\\" download=\\"\\">Download</a></div>
+<!-- /wp:file -->"
+`;

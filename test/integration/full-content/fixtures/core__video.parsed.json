@@ -3,7 +3,7 @@
         "blockName": "core/video",
         "attrs": {},
         "innerBlocks": [],
-        "innerHTML": "\n<figure class=\"wp-block-video\"><video controls src=\"https://awesome-fake.video/file.mp4\"></video></figure>\n"
+        "innerHTML": "\n<figure class=\"wp-block-video\"><video controls src=\"https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4\"></video></figure>\n"
     },
     {
         "blockName": null,

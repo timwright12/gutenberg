@@ -2,16 +2,16 @@
  * External dependencies
  */
 import path from 'path';
-import { some } from 'lodash';
+import { mapValues, pickBy, some } from 'lodash';
 
 /**
  * Internal dependencies
  */
 import {
 	newPost,
-	getEditedPostContent,
 	setPostContent,
 	getAllBlocks,
+	getEditedPostContent,
 	selectBlockByClientId,
 } from '../support/utils';
 import {
@@ -41,61 +41,125 @@ const hasBlockSwitcher = async () => {
 	}, BLOCK_SWITCHER_SELECTOR );
 };
 
-const getProcessedFileBase = async ( fixturesDir, fileBase ) => {
-	if ( some(
-		[ 'deprecated', 'subhead', 'text-columns' ],
-		( partialFileName ) => fileBase.includes( partialFileName )
-	) ) {
-		return {
-			expectedDeprecatedBlock: true,
-		};
+const isAnExpectedUnhandledBlock = ( fixturesDir, fileBase ) => {
+	if ( fileBase.includes( 'deprecated' ) ) {
+		return true;
 	}
 	const parsedBlockObject = JSON.parse(
 		readFixtureFile( fixturesDir, fileBase + '.parsed.json' )
+	)[ 0 ];
+	return some(
+		[
+			null,
+			'core/block',
+			'core/freeform',
+			'core/text-columns',
+			'core/text',
+			'core/column',
+			'core/subhead',
+		],
+		( blockName ) => parsedBlockObject.blockName === blockName
 	);
-	if ( parsedBlockObject.blockName === null ) {
+};
+
+const setPostContentAndSelectBlock = async ( content ) => {
+	await setPostContent( content );
+	const blocks = await getAllBlocks();
+	const clientId = blocks[ 0 ].clientId;
+	await page.click( '.editor-post-title .editor-post-title__block' );
+
+	await selectBlockByClientId( clientId );
+};
+
+const getTransformStructureFromFile = async ( fixturesDir, fileBase ) => {
+	if ( isAnExpectedUnhandledBlock( fixturesDir, fileBase ) ) {
 		return {
-			expectedInvalidBlock: true,
+			expectedUnhandledBlock: true,
 		};
 	}
 	const content = readFixtureFile( fixturesDir, fileBase + '.html' );
-	await setPostContent( content );
-	const blocks = await getAllBlocks();
-	const normalizedMarkup = await getEditedPostContent();
-	await selectBlockByClientId( blocks[ 0 ].clientId );
-	let availableTransforms;
+	await setPostContentAndSelectBlock( content );
+	let availableTransforms = [];
 	if ( await hasBlockSwitcher() ) {
 		await page.click( BLOCK_SWITCHER_SELECTOR );
-		availableTransforms = await getAvailableBlockTransforms(
-			blocks[ 0 ].clientId
-		);
+		availableTransforms = await getAvailableBlockTransforms();
 	}
 
 	return {
-		normalizedMarkup,
+		content,
 		availableTransforms,
 	};
 };
 
+const getTransformResult = async ( blockContent, transformName ) => {
+	await setPostContentAndSelectBlock( blockContent );
+	expect( await hasBlockSwitcher() ).toBe( true );
+	await page.click( BLOCK_SWITCHER_SELECTOR );
+	await page.click(
+		`.editor-block-types-list .editor-block-types-list__list-item button[aria-label="${ transformName }"]`
+	);
+	return getEditedPostContent();
+};
+
 describe( 'test transforms', () => {
+	const expectedTransforms = JSON.parse(
+		readFixtureFile(
+			path.join( __dirname, 'fixtures' ),
+			'block-transforms.json'
+		)
+	);
+
 	const fixturesDir = path.join(
 		__dirname, '..', '..', 'integration', 'full-content', 'fixtures'
 	);
 
 	const fileBasenames = getFileBaseNames( fixturesDir );
 
-	const blocksParsed = {};
+	const transformStructure = {};
 	beforeAll( async () => {
 		await newPost();
+		await page.click( '.editor-post-title .editor-post-title__block' );
 		for ( const fileBase of fileBasenames ) {
-			blocksParsed[ fileBase ] = await getProcessedFileBase( fixturesDir, fileBase );
+			transformStructure[ fileBase ] = await getTransformStructureFromFile(
+				fixturesDir,
+				fileBase
+			);
 		}
 		expect( console ).toHaveErroredWith(
 			'Failed to load resource: the server responded with a status of 404 (Not Found)'
 		);
 	} );
 
-	it( 'all transforms work', async () => {
-		expect( JSON.stringify( blocksParsed ) ).toMatchSnapshot();
+	it( 'Should contain the expected transforms', async () => {
+		expect(
+			mapValues(
+				pickBy(
+					transformStructure,
+					( { availableTransforms } ) => availableTransforms,
+				),
+				'availableTransforms'
+			)
+		).toEqual( expectedTransforms );
+	} );
+
+	describe( 'individual transforms work as expected', () => {
+		afterEach( async () => {
+			await setPostContent( '' );
+			await page.click( '.editor-post-title .editor-post-title__block' );
+		} );
+
+		for ( const [ fixture, transforms ] of Object.entries( expectedTransforms ) ) {
+			for ( const transform of transforms ) {
+				it( `Should correctly transform block in fixture ${ fixture } to ${ transform } block`,
+					async () => {
+						const { content } = transformStructure[ fixture ];
+
+						expect(
+							await getTransformResult( content, transform )
+						).toMatchSnapshot();
+					}
+				);
+			}
+		}
 	} );
 } );
