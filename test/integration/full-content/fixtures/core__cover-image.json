@@ -5,12 +5,12 @@
         "isValid": true,
         "attributes": {
             "title": "Guten Berg!",
-            "url": "https://cldup.com/uuUqE_dXzy.jpg",
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==",
             "contentAlign": "center",
             "hasParallax": false,
             "dimRatio": 40
         },
         "innerBlocks": [],
-        "originalContent": "<div class=\"wp-block-cover-image has-background-dim-40 has-background-dim\" style=\"background-image:url(https://cldup.com/uuUqE_dXzy.jpg)\">\n    <p class=\"wp-block-cover-image-text\">Guten Berg!</p>\n</div>"
+        "originalContent": "<div class=\"wp-block-cover-image has-background-dim-40 has-background-dim\" style=\"background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==)\">\n    <p class=\"wp-block-cover-image-text\">Guten Berg!</p>\n</div>"
     }
 ]

@@ -18,21 +18,23 @@ import {
 	getFileBaseNames,
 	readFixtureFile,
 } from '../../support/utils';
+import { EXPECTED_TRANSFORMS } from './fixtures/block-transforms';
 
 const BLOCK_SWITCHER_SELECTOR = '.editor-block-toolbar .editor-block-switcher';
+const TRANSFORM_BUTTON_SELECTOR = '.editor-block-types-list .editor-block-types-list__list-item button';
 
 const getAvailableBlockTransforms = async () => {
-	return await page.evaluate( () => {
+	return await page.evaluate( ( buttonSelector ) => {
 		return Array.from(
 			document.querySelectorAll(
-				'.editor-block-types-list .editor-block-types-list__list-item button'
+				buttonSelector
 			)
 		).map(
 			( button ) => {
 				return button.getAttribute( 'aria-label' );
 			}
 		);
-	} );
+	}, TRANSFORM_BUTTON_SELECTOR );
 };
 
 const hasBlockSwitcher = async () => {
@@ -96,19 +98,12 @@ const getTransformResult = async ( blockContent, transformName ) => {
 	expect( await hasBlockSwitcher() ).toBe( true );
 	await page.click( BLOCK_SWITCHER_SELECTOR );
 	await page.click(
-		`.editor-block-types-list .editor-block-types-list__list-item button[aria-label="${ transformName }"]`
+		`${ TRANSFORM_BUTTON_SELECTOR }[aria-label="${ transformName }"]`
 	);
 	return getEditedPostContent();
 };
 
 describe( 'test transforms', () => {
-	const expectedTransforms = JSON.parse(
-		readFixtureFile(
-			path.join( __dirname, 'fixtures' ),
-			'block-transforms.json'
-		)
-	);
-
 	const fixturesDir = path.join(
 		__dirname, '..', '..', 'integration', 'full-content', 'fixtures'
 	);
@@ -118,16 +113,15 @@ describe( 'test transforms', () => {
 	const transformStructure = {};
 	beforeAll( async () => {
 		await newPost();
-		await page.click( '.editor-post-title .editor-post-title__block' );
+
 		for ( const fileBase of fileBasenames ) {
 			transformStructure[ fileBase ] = await getTransformStructureFromFile(
 				fixturesDir,
 				fileBase
 			);
+			await setPostContent( '' );
+			await page.click( '.editor-post-title .editor-post-title__block' );
 		}
-		expect( console ).toHaveErroredWith(
-			'Failed to load resource: the server responded with a status of 404 (Not Found)'
-		);
 	} );
 
 	it( 'Should contain the expected transforms', async () => {
@@ -139,21 +133,24 @@ describe( 'test transforms', () => {
 				),
 				'availableTransforms'
 			)
-		).toEqual( expectedTransforms );
+		).toEqual( EXPECTED_TRANSFORMS );
 	} );
 
 	describe( 'individual transforms work as expected', () => {
+		beforeAll( async () => {
+			await newPost();
+		} );
+
 		afterEach( async () => {
 			await setPostContent( '' );
 			await page.click( '.editor-post-title .editor-post-title__block' );
 		} );
 
-		for ( const [ fixture, transforms ] of Object.entries( expectedTransforms ) ) {
+		for ( const [ fixture, transforms ] of Object.entries( EXPECTED_TRANSFORMS ) ) {
 			for ( const transform of transforms ) {
 				it( `Should correctly transform block in fixture ${ fixture } to ${ transform } block`,
 					async () => {
 						const { content } = transformStructure[ fixture ];
-
 						expect(
 							await getTransformResult( content, transform )
 						).toMatchSnapshot();
