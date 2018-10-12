@@ -40,6 +40,7 @@ const isAnExpectedUnhandledBlock = ( fixturesDir, fileBase ) => {
 			'core/text',
 			'core/column',
 			'core/subhead',
+			'unregistered/example',
 		],
 		( blockName ) => parsedBlockObject.blockName === blockName
 	);
