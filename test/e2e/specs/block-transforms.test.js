@@ -8,14 +8,14 @@ import { mapValues, pickBy, some } from 'lodash';
  * Internal dependencies
  */
 import {
+	getAllBlocks,
+	getAvailableBlockTransforms,
+	getBlockTitle,
+	getEditedPostContent,
+	hasBlockSwitcher,
 	newPost,
 	setPostContent,
-	getAllBlocks,
-	getEditedPostContent,
 	selectBlockByClientId,
-	getBlockTitle,
-	hasBlockSwitcher,
-	getAvailableBlockTransforms,
 	transformBlock,
 } from '../support/utils';
 import {
@@ -35,11 +35,11 @@ const isAnExpectedUnhandledBlock = ( fixturesDir, fileBase ) => {
 		[
 			null,
 			'core/block',
+			'core/column',
 			'core/freeform',
 			'core/text-columns',
-			'core/text',
-			'core/column',
 			'core/subhead',
+			'core/text',
 			'unregistered/example',
 		],
 		( blockName ) => parsedBlockObject.blockName === blockName
@@ -120,7 +120,7 @@ describe( 'test transforms', () => {
 			await newPost();
 		} );
 
-		afterEach( async () => {
+		beforeEach( async () => {
 			await setPostContent( '' );
 			await page.click( '.editor-post-title .editor-post-title__block' );
 		} );
