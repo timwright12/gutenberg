@@ -10,6 +10,8 @@ import {
 	noop,
 	isEqual,
 	omit,
+	// mapValues,
+	// mapKeys,
 } from 'lodash';
 import memize from 'memize';
 
@@ -71,6 +73,30 @@ const { Node, getSelection } = window;
  * @type {string}
  */
 const TINYMCE_ZWSP = '\uFEFF';
+
+// function toFormat( { type, attributes } ) {
+// 	const { format, attributes: attributesDefinition } =
+// 		find( formatControls, ( { match } ) => type === match.tagName );
+
+// 	return {
+// 		type: format,
+// 		attributes: mapValues( attributesDefinition, ( name ) =>
+// 			attributes ? attributes[ name ] : undefined
+// 		),
+// 	};
+// }
+
+// function fromFormat( { type, attributes } ) {
+// 	const { match, attributes: attributesDefinition } =
+// 		find( formatControls, ( { format } ) => type === format );
+
+// 	return {
+// 		type: match.tagName,
+// 		attributes: mapKeys( attributes, ( value, key ) =>
+// 			attributesDefinition[ key ]
+// 		),
+// 	};
+// }
 
 export class RichText extends Component {
 	constructor( { value, onReplace, multiline } ) {
