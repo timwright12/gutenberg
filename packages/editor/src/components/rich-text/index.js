@@ -924,7 +924,7 @@ export class RichText extends Component {
 								</Tagname>
 							}
 							{ isSelected && <Slot name="RichText.Siblings" /> }
-							{ isSelected && <FormatEdit value={ record } onChange={ this.onChange } /> }
+							{ isSelected && this.editor && <FormatEdit editor={ this.editor } value={ record } onChange={ this.onChange } /> }
 						</Fragment>
 					) }
 				</Autocomplete>
