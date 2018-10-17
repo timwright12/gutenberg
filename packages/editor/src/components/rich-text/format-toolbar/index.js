@@ -17,6 +17,7 @@ import { isURL } from '@wordpress/url';
 /**
  * Internal dependencies
  */
+import NavigableToolbar from '../../navigable-toolbar';
 import { FORMATTING_CONTROLS } from '../formatting-controls';
 import LinkContainer from './link-container';
 import ToolbarContainer from './toolbar-container';
@@ -137,20 +138,22 @@ class FormatToolbar extends Component {
 			} );
 
 		return (
-			<ToolbarContainer>
-				<Toolbar controls={ toolbarControls } />
-				<LinkContainer
-					link={ link }
-					record={ this.props.record }
-					onChange={ this.props.onChange }
-					applyFormat={ this.applyFormat }
-					removeFormat={ this.removeFormat }
-					getActiveFormat={ this.getActiveFormat }
-					toggleFormat={ this.toggleFormat }
-					addingLink={ this.state.addingLink }
-					stopAddingLink={ this.stopAddingLink }
-				/>
-			</ToolbarContainer>
+			<NavigableToolbar name="editor-rich-text-format">
+				<ToolbarContainer>
+					<Toolbar controls={ toolbarControls } />
+					<LinkContainer
+						link={ link }
+						record={ this.props.record }
+						onChange={ this.props.onChange }
+						applyFormat={ this.applyFormat }
+						removeFormat={ this.removeFormat }
+						getActiveFormat={ this.getActiveFormat }
+						toggleFormat={ this.toggleFormat }
+						addingLink={ this.state.addingLink }
+						stopAddingLink={ this.stopAddingLink }
+					/>
+				</ToolbarContainer>
+			</NavigableToolbar>
 		);
 	}
 }

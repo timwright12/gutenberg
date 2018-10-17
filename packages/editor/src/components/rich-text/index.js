@@ -48,6 +48,7 @@ import { decodeEntities } from '@wordpress/html-entities';
  */
 import Autocomplete from '../autocomplete';
 import BlockFormatControls from '../block-format-controls';
+import NavigableToolbar from '../navigable-toolbar';
 import { FORMATTING_CONTROLS } from './formatting-controls';
 import FormatToolbar from './format-toolbar';
 import TinyMCE from './tinymce';
@@ -874,7 +875,7 @@ export class RichText extends Component {
 			/>
 		);
 
-		return (
+		const element = (
 			<div className={ classes }
 				ref={ this.containerRef }
 				onFocus={ this.setFocusedElement }
@@ -902,42 +903,56 @@ export class RichText extends Component {
 					record={ record }
 					onChange={ this.onChange }
 				>
-					{ ( { isExpanded, listBoxId, activeId } ) => (
-						<Fragment>
-							<TinyMCE
-								tagName={ Tagname }
-								getSettings={ this.getSettings }
-								onSetup={ this.onSetup }
-								style={ style }
-								defaultValue={ value }
-								isPlaceholderVisible={ isPlaceholderVisible }
-								aria-label={ placeholder }
-								aria-autocomplete="list"
-								aria-expanded={ isExpanded }
-								aria-owns={ listBoxId }
-								aria-activedescendant={ activeId }
-								{ ...ariaProps }
-								className={ className }
-								key={ key }
-								onPaste={ this.onPaste }
-								onInput={ this.onInput }
-								multilineTag={ this.multilineTag }
-								setRef={ this.setRef }
-							/>
-							{ isPlaceholderVisible &&
-								<Tagname
-									className={ classnames( 'editor-rich-text__tinymce', className ) }
+					{ ( { isExpanded, listBoxId, activeId } ) => {
+						const field = (
+							<Fragment>
+								<TinyMCE
+									tagName={ Tagname }
+									getSettings={ this.getSettings }
+									onSetup={ this.onSetup }
 									style={ style }
-								>
-									{ MultilineTag ? <MultilineTag>{ placeholder }</MultilineTag> : placeholder }
-								</Tagname>
-							}
-							{ isSelected && <Slot name="RichText.Siblings" /> }
-						</Fragment>
-					) }
+									defaultValue={ value }
+									isPlaceholderVisible={ isPlaceholderVisible }
+									aria-label={ placeholder }
+									aria-autocomplete="list"
+									aria-expanded={ isExpanded }
+									aria-owns={ listBoxId }
+									aria-activedescendant={ activeId }
+									{ ...ariaProps }
+									className={ className }
+									key={ key }
+									onPaste={ this.onPaste }
+									onInput={ this.onInput }
+									multilineTag={ this.multilineTag }
+									setRef={ this.setRef }
+								/>
+								{ isPlaceholderVisible &&
+									<Tagname
+										className={ classnames( 'editor-rich-text__tinymce', className ) }
+										style={ style }
+									>
+										{ MultilineTag ? <MultilineTag>{ placeholder }</MultilineTag> : placeholder }
+									</Tagname>
+								}
+								{ isSelected && <Slot name="RichText.Siblings" /> }
+							</Fragment>
+						);
+
+						if ( isSelected && inlineToolbar ) {
+							return (
+								<NavigableToolbar.KeybindScope name="editor-rich-text-format">
+									{ field }
+								</NavigableToolbar.KeybindScope>
+							);
+						}
+
+						return field;
+					} }
 				</Autocomplete>
 			</div>
 		);
+
+		return element;
 	}
 }
 

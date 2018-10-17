@@ -24,6 +24,14 @@ class NavigableToolbar extends Component {
 		] );
 	}
 
+	componentDidMount() {
+		NavigableToolbar.registry.set( this.props.name, this );
+	}
+
+	componentWillUnmount() {
+		NavigableToolbar.registry.delete( this.props.name );
+	}
+
 	bindNode( ref ) {
 		// Disable reason: Need DOM node for finding first focusable element
 		// on keyboard interaction to shift to toolbar.
@@ -66,7 +74,16 @@ class NavigableToolbar extends Component {
 	}
 
 	render() {
-		const { children, ...props } = this.props;
+		const {
+			children,
+			// Disable reason: NavigableMenu will pass through props received
+			// to its rendered element. Avoid including NavigableToolbar's
+			// `name` in destructured props.
+			/* eslint-disable no-unused-vars */
+			name,
+			/* eslint-enable no-unused-vars */
+			...props
+		} = this.props;
 		return (
 			<NavigableMenu
 				orientation="horizontal"
@@ -75,18 +92,45 @@ class NavigableToolbar extends Component {
 				onKeyDown={ this.switchOnKeyDown }
 				{ ...props }
 			>
-				<KeyboardShortcuts
-					bindGlobal
-					// Use the same event that TinyMCE uses in the Classic block for its own `alt+f10` shortcut.
-					eventName="keydown"
-					shortcuts={ {
-						'alt+f10': this.focusToolbar,
-					} }
-				/>
 				{ children }
 			</NavigableMenu>
 		);
 	}
 }
+
+NavigableToolbar.registry = new Map;
+
+NavigableToolbar.KeybindScope = class extends Component {
+	constructor() {
+		super( ...arguments );
+
+		this.focusToolbar = this.focusToolbar.bind( this );
+	}
+
+	/**
+	 * Invokes `focusToolbar` on the `NavigableToolbar` instance corresponding
+	 * to the scope's own `name` prop, if one exists.
+	 */
+	focusToolbar() {
+		const toolbar = NavigableToolbar.registry.get( this.props.name );
+		if ( toolbar ) {
+			toolbar.focusToolbar();
+		}
+	}
+
+	render() {
+		return (
+			<KeyboardShortcuts
+				bindGlobal
+				ignoreChildHandled
+				eventName="keydown"
+				shortcuts={ {
+					'alt+f10': this.focusToolbar,
+				} }
+				{ ...this.props }
+			/>
+		);
+	}
+};
 
 export default NavigableToolbar;
