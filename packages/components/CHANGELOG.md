@@ -1,3 +1,9 @@
+## 4.2.0 (Unreleased)
+
+### New Feature
+
+- Added new prop `ignoreChildHandled` to the `KeyboardShortcuts` component.
+
 ## 4.1.0 (2018-10-10)
 
 ### New Feature
