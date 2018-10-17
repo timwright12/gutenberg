@@ -28,11 +28,6 @@ async function tabUntilElementIsActive( checkActiveElement ) {
 	} while ( ! isFocused );
 }
 
-const moveMouse = async () => {
-	await page.mouse.move( 200, 300, { steps: 10 } );
-	await page.mouse.move( 250, 350, { steps: 10 } );
-};
-
 async function uploadImageInTheMediaLibrary( assetFileName ) {
 	await page.waitForSelector( '.media-modal input[type=file]' );
 	const inputElement = await page.$( '.media-modal input[type=file]' );
@@ -104,7 +99,7 @@ describe( 'Demo content post', () => {
 		// Create the aligned right paragraph
 		await page.keyboard.press( 'Enter' );
 		await page.keyboard.type( '... like this one, which is right aligned.' );
-		await moveMouse(); // This shouldn't be necessary to show the toolbar
+		await page.keyboard.press( 'Escape' );
 		await pressWithModifier( 'Alt', 'F10' );
 		await page.keyboard.press( 'Tab' );
 		await page.keyboard.press( 'Tab' );
@@ -295,7 +290,7 @@ describe( 'Demo content post', () => {
 		await page.keyboard.type( 'https://vimeo.com/22439234' );
 		await page.keyboard.press( 'Enter' );
 
-		await moveMouse(); // This shouldn't be necessary to show the toolbar
+		await page.keyboard.press( 'Escape' );
 		await pressWithModifier( 'Alt', 'F10' );
 		await pressTimes( 'Tab', 3 );
 		await page.keyboard.press( 'Enter' ); // Align center instead of full (full not available in the default theme for now)
@@ -327,7 +322,7 @@ describe( 'Demo content post', () => {
 		await page.keyboard.press( 'Enter' );
 
 		// Center align
-		await moveMouse(); // This shouldn't be necessary to show the toolbar
+		await page.keyboard.press( 'Escape' );
 		await pressWithModifier( 'Alt', 'F10' );
 		await pressTimes( 'Tab', 2 );
 		await page.keyboard.press( 'Enter' ); // Align center instead of full (full not available in the default theme for now)
@@ -340,7 +335,7 @@ describe( 'Demo content post', () => {
 		await page.keyboard.type( 'Help build Gutenberg' );
 		await page.keyboard.press( 'Tab' );
 		await page.keyboard.type( 'https://github.com/WordPress/gutenberg' );
-		await moveMouse(); // This shouldn't be necessary to show the toolbar
+		await page.keyboard.press( 'Escape' );
 		await pressWithModifier( 'Alt', 'F10' );
 		await pressTimes( 'Tab', 2 );
 		await page.keyboard.press( 'Enter' ); // Align center instead of full (full not available in the default theme for now)
@@ -351,7 +346,7 @@ describe( 'Demo content post', () => {
 
 		await page.keyboard.press( 'Enter' );
 		await page.keyboard.type( 'Thanks for testing Gutenberg!' );
-		await moveMouse(); // This shouldn't be necessary to show the toolbar
+		await page.keyboard.press( 'Escape' );
 		await pressWithModifier( 'Alt', 'F10' );
 		await pressTimes( 'Tab', 2 );
 		await page.keyboard.press( 'Enter' ); // Align center instead of full (full not available in the default theme for now)
