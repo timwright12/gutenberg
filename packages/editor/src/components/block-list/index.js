@@ -192,6 +192,7 @@ class BlockList extends Component {
 			isGroupedByLayout,
 			rootClientId,
 			isDraggable,
+			templateInProcess,
 		} = this.props;
 
 		let defaultLayout;
@@ -221,11 +222,11 @@ class BlockList extends Component {
 					/>
 				) ) }
 
-				<BlockListAppender
+				{ ! templateInProcess && ( <BlockListAppender
 					rootClientId={ rootClientId }
 					layout={ layout }
 					isGroupedByLayout={ isGroupedByLayout }
-				/>
+				/> ) }
 			</div>
 		);
 	}
