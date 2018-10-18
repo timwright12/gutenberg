@@ -25,13 +25,16 @@ import {
 
 const blockAttributes = {
 	value: {
+		type: 'string',
 		source: 'html',
 		selector: 'blockquote',
 		multiline: 'p',
 	},
 	citation: {
+		type: 'string',
 		source: 'html',
 		selector: 'cite',
+		default: '',
 	},
 	mainColor: {
 		type: 'string',
@@ -132,6 +135,7 @@ export const settings = {
 		attributes: {
 			...blockAttributes,
 			citation: {
+				type: 'string',
 				source: 'html',
 				selector: 'footer',
 			},

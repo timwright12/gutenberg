@@ -47,9 +47,11 @@ const schema = {
 		default: false,
 	},
 	values: {
+		type: 'string',
 		source: 'html',
 		selector: 'ol,ul',
 		multiline: 'li',
+		default: '',
 	},
 };
 

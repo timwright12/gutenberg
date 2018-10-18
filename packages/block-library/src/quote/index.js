@@ -21,10 +21,12 @@ const blockAttributes = {
 		source: 'html',
 		selector: 'blockquote',
 		multiline: 'p',
+		default: '',
 	},
 	citation: {
 		source: 'html',
 		selector: 'cite',
+		default: '',
 	},
 	align: {
 		type: 'string',
@@ -293,6 +295,7 @@ export const settings = {
 				citation: {
 					source: 'html',
 					selector: 'footer',
+					default: '',
 				},
 				style: {
 					type: 'number',
