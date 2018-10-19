@@ -105,6 +105,7 @@ export const settings = {
 		const style = {
 			backgroundColor: backgroundClass ? undefined : customBackgroundColor,
 			gridTemplateColumns,
+			msGridColumns: gridTemplateColumns,
 		};
 		return (
 			<div className={ className } style={ style }>
