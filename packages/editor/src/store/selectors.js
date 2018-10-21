@@ -689,11 +689,9 @@ export const getBlocksByClientId = createSelector(
 		( clientId ) => getBlock( state, clientId )
 	),
 	( state ) => [
-		state.editor.present.blocks.byClientId,
-		state.editor.present.blocks.order,
 		state.editor.present.edits.meta,
 		state.currentPost.meta,
-		state.editor.present.blocks.byClientId,
+		state.editor.present.blocks,
 	]
 );
 
@@ -1514,8 +1512,7 @@ export const getEditedPostContent = createSelector(
 	},
 	( state ) => [
 		state.editor.present.edits.content,
-		state.editor.present.blocks.byClientId,
-		state.editor.present.blocks.order,
+		state.editor.present.blocks,
 	],
 );
 
