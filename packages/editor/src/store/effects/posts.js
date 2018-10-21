@@ -174,7 +174,7 @@ export const requestPostUpdate = async ( action, store ) => {
  */
 export const requestPostUpdateSuccess = ( action, store ) => {
 	const { previousPost, post, isAutosave, postType } = action;
-	const { dispatch, getState } = store;
+	const { dispatch } = store;
 
 	// Autosaves are neither shown a notice nor redirected.
 	if ( isAutosave ) {
