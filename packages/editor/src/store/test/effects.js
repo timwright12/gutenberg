@@ -342,7 +342,6 @@ describe( 'effects', () => {
 			handler( { post, previousPost, isAutosave: true }, store );
 
 			expect( dispatch ).toHaveBeenCalledTimes( 1 );
-			expect( dispatch ).toHaveBeenCalledWith( { type: 'DIRTY_ARTIFICIALLY' } );
 		} );
 	} );
 
