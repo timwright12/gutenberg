@@ -100,6 +100,20 @@ export function isEditedPostNew( state ) {
 }
 
 /**
+ * Returns true if content includes unsaved changes, or false otherwise.
+ *
+ * @param {Object} state Editor state.
+ *
+ * @return {boolean} Whether content includes unsaved changes.
+ */
+export function hasChangedContent( state ) {
+	return (
+		state.editor.present.blocks.isDirty ||
+		'content' in state.editor.present.edits
+	);
+}
+
+/**
  * Returns true if there are unsaved values for the current edit session, or
  * false if the editing state matches the saved or new post.
  *
@@ -108,7 +122,15 @@ export function isEditedPostNew( state ) {
  * @return {boolean} Whether unsaved values exist.
  */
 export function isEditedPostDirty( state ) {
-	return state.editor.isDirty || inSomeHistory( state, isEditedPostDirty );
+	if ( hasChangedContent( state ) ) {
+		return true;
+	}
+
+	if ( Object.keys( state.editor.present.edits ).length > 0 ) {
+		return true;
+	}
+
+	return inSomeHistory( state, isEditedPostDirty );
 }
 
 /**
