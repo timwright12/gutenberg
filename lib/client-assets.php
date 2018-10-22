@@ -443,7 +443,6 @@ function gutenberg_register_scripts_and_styles() {
 			'wp-keycodes',
 			'wp-polyfill',
 			'wp-rich-text',
-			'wp-token-list',
 			'wp-url',
 		),
 		filemtime( gutenberg_dir_path() . 'build/components/index.js' ),

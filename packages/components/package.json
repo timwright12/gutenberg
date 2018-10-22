@@ -31,7 +31,6 @@
 		"@wordpress/i18n": "file:../i18n",
 		"@wordpress/is-shallow-equal": "file:../is-shallow-equal",
 		"@wordpress/keycodes": "file:../keycodes",
-		"@wordpress/token-list": "file:../token-list",
 		"@wordpress/url": "file:../url",
 		"classnames": "^2.2.5",
 		"clipboard": "^2.0.1",
@@ -49,6 +48,7 @@
 		"uuid": "^3.1.0"
 	},
 	"devDependencies": {
+		"@wordpress/token-list": "file:../token-list",
 		"enzyme": "^3.3.0",
 		"react-test-renderer": "^16.4.1"
 	},
