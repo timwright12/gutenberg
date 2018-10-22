@@ -478,6 +478,7 @@ function gutenberg_register_scripts_and_styles() {
 		gutenberg_url( 'build/notices/index.js' ),
 		array(
 			'lodash',
+			'wp-a11y',
 			'wp-data',
 			'wp-polyfill-ecmascript',
 		),

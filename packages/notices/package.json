@@ -23,7 +23,9 @@
 	"main": "build/index.js",
 	"dependencies": {
 		"@babel/runtime": "^7.0.0",
-		"@wordpress/data": "file:../data"
+		"@wordpress/a11y": "file:../a11y",
+		"@wordpress/data": "file:../data",
+		"lodash": "^4.17.10"
 	},
 	"devDependencies": {
 		"deep-freeze": "^0.0.1"
