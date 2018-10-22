@@ -204,10 +204,10 @@ export function getUnknownTypeHandlerName() {
 /**
  * Assigns name of block for handling non-block content.
  *
- * @param {string} name Block name.
+ * @param {string} blockName Block name.
  */
-export function setFreeformContentHandlerName( name ) {
-	dispatch( 'core/blocks' ).setFreeformFallbackBlockName( name );
+export function setFreeformContentHandlerName( blockName ) {
+	dispatch( 'core/blocks' ).setFreeformFallbackBlockName( blockName );
 }
 
 /**
@@ -223,10 +223,10 @@ export function getFreeformContentHandlerName() {
 /**
  * Assigns name of block handling unregistered block types.
  *
- * @param {string} name Block name.
+ * @param {string} blockName Block name.
  */
-export function setUnregisteredTypeHandlerName( name ) {
-	dispatch( 'core/blocks' ).setUnregisteredFallbackBlockName( name );
+export function setUnregisteredTypeHandlerName( blockName ) {
+	dispatch( 'core/blocks' ).setUnregisteredFallbackBlockName( blockName );
 }
 
 /**
