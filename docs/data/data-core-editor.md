@@ -1714,4 +1714,12 @@ Returns an action object used in signalling that the editor settings have been u
 
  * settings: Updated settings
 
+### enablePublishSidebar
+
+Returns an action object used in signalling that the user has enabled the publish sidebar.
+
+### disablePublishSidebar
+
+Returns an action object used in signalling that the user has disabled the publish sidebar.
+
 ### createNotice
