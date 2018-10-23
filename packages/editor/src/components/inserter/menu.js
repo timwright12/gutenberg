@@ -257,7 +257,7 @@ export class InserterMenu extends Component {
 						</PanelBody>
 					}
 
-					<Slot name="Inserter.InlineElements">
+					<Slot name="Inserter.InlineElements" fillProps={ { filterValue } }>
 						{ ( fills ) => ! isEmpty( fills ) && (
 							<PanelBody
 								title={ __( 'Inline Elements' ) }
