@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { get } from 'lodash';
+import { escape, get } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -54,44 +54,46 @@ export class PostPreviewButton extends Component {
 		return `wp-preview-${ postId }`;
 	}
 
-	/**
-	 * Opens a popup window, navigating user to a preview of the current post.
-	 * Triggers autosave if post is autosaveable.
-	 */
-	openPreviewWindow() {
-		const { isAutosaveable, previewLink, currentPostLink } = this.props;
+	// TODO: I rejigged this so that it always prevents default. Need to update the
+	// comments to reflect that.
 
-		// Open a popup, BUT: Set it to a blank page until save completes. This
-		// is necessary because popups can only be opened in response to user
-		// interaction (click), but we must still wait for the post to save.
+	/**
+	 * Intercepts the Preview button's 'click' event to first perform an autosave
+	 * if necessary.
+	 *
+	 * @param {Event} event The 'click' event to intercept.
+	 */
+	openPreviewWindow( event ) {
+		// Prevent the regular preview link from opening. Instead, we're going to open
+		// up a 'Please wait' window which we'll show until the autosave completes.
+		event.preventDefault();
+
+		// Open up a new window. This will be our 'Please wait' window. It's necessary
+		// to open this *now* because popups can only be opened in response to user
+		// interactions.
 		if ( ! this.previewWindow || this.previewWindow.closed ) {
-			this.previewWindow = window.open( '', this.getWindowTarget() );
+			this.previewWindow = window.open( 'about:blank', this.getWindowTarget() );
 		}
 
-		// Ask the browser to bring the preview tab to the front
-		// This can work or not depending on the browser's user preferences
+		// Do nothing if an autosave is not needed.
+		if ( ! this.props.isAutosaveable ) {
+			this.setPreviewWindowLink( event.target.href );
+			return;
+		}
+
+		// Request an autosave. This will happen asynchronously.
+		this.props.autosave();
+
+		// Ask the browser to bring the 'Please wait' window to the front. This can
+		// work or not depending on the browser's user preferences.
 		// https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus
 		this.previewWindow.focus();
 
-		// If there are no changes to autosave, we cannot perform the save, but
-		// if there is an existing preview link (e.g. previous published post
-		// autosave), it should be reused as the popup destination.
-		if ( ! isAutosaveable && ! previewLink && currentPostLink ) {
-			this.setPreviewWindowLink( currentPostLink );
-			return;
-		}
-
-		if ( ! isAutosaveable ) {
-			this.setPreviewWindowLink( previewLink );
-			return;
-		}
-
-		this.props.autosave();
-
+		// Now we just generate some HTML which politely asks the user to wait...
 		const markup = `
 			<div class="editor-post-preview-button__interstitial-message">
-				<p>Please wait&hellip;</p>
-				<p>Generating preview.</p>
+				<p>${ escape( __( 'Please wait…' ) ) }</p>
+				<p>${ escape( __( 'Generating preview.' ) ) }</p>
 			</div>
 			<style>
 				body {
@@ -109,23 +111,38 @@ export class PostPreviewButton extends Component {
 					text-align: center;
 					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 				}
-			</style>`;
+			</style>
+		`;
 
+		// ...and then slap it into our 'Please wait' window!
 		this.previewWindow.document.write( markup );
 		this.previewWindow.document.close();
 	}
 
 	render() {
-		const { isSaveable } = this.props;
+		const { previewLink, currentPostLink, isSaveable } = this.props;
+
+		// Link to the `?preview=true` URL if we have it, since this lets us see
+		// changes that were autosaved since the post was last published. Otherwise,
+		// just link to the post's URL.
+		const href = previewLink || currentPostLink;
 
 		return (
 			<Button
-				className="editor-post-preview"
 				isLarge
-				onClick={ this.openPreviewWindow }
+				className="editor-post-preview"
+				href={ href }
+				target={ this.getWindowTarget() }
 				disabled={ ! isSaveable }
+				onClick={ this.openPreviewWindow }
 			>
 				{ _x( 'Preview', 'imperative verb' ) }
+				<span className="screen-reader-text">
+					{
+						/* translators: accessibility text */
+						__( '(opens in a new tab)' )
+					}
+				</span>
 				<DotTip id="core/editor.preview">
 					{ __( 'Click “Preview” to load a preview of this page, so you can make sure you’re happy with your blocks.' ) }
 				</DotTip>
@@ -141,8 +158,6 @@ export default compose( [
 			getCurrentPostAttribute,
 			getAutosaveAttribute,
 			getEditedPostAttribute,
-			isEditedPostDirty,
-			isEditedPostNew,
 			isEditedPostSaveable,
 			isEditedPostAutosaveable,
 		} = select( 'core/editor' );
@@ -154,8 +169,6 @@ export default compose( [
 			postId: getCurrentPostId(),
 			currentPostLink: getCurrentPostAttribute( 'link' ),
 			previewLink: getAutosaveAttribute( 'preview_link' ),
-			isDirty: isEditedPostDirty(),
-			isNew: isEditedPostNew(),
 			isSaveable: isEditedPostSaveable(),
 			isAutosaveable: isEditedPostAutosaveable(),
 			isViewable: get( postType, [ 'viewable' ], false ),
